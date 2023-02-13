@@ -1,0 +1,20 @@
+# Template file for 'obs-vkcapture'
+pkgname=obs-vkcapture
+version=1.3.0
+revision=1
+build_style=cmake
+configure_args="-DBUILD_PLUGIN=0"
+hostmakedepends="pkg-config"
+makedepends="Vulkan-Headers vulkan-loader libglvnd-devel libX11-devel libxcb-devel wayland-devel"
+short_desc="OBS plugin for Vulkan/OpenGL game capture on Linux"
+maintainer="badbayan <badya65@gmail.com>"
+license="GPL-2.0-only"
+homepage="https://github.com/nowrep/obs-vkcapture"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=ec3366abdba6c74af8cd83a4ffadd45ce4dadaf66542233b05e7881af754fb83
+
+post_patch() {
+	vsed -e 's,${LAYER_SUFFIX},,g' -i CMakeLists.txt
+	vsed -e 's,@LAYER_SUFFIX@,,' -i src/obs_vkcapture.json.in
+	vsed -e 's,@CMAKE_INSTALL_FULL_LIBDIR@/,,' -i src/obs_vkcapture.json.in
+}
