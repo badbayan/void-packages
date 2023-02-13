@@ -1,0 +1,32 @@
+# Template file for 'sdl12-compat'
+pkgname=sdl12-compat
+version=1.2.60
+revision=1
+build_style=cmake
+hostmakedepends="pkg-config"
+makedepends="SDL2-devel"
+short_desc="SDL-1.2 compatibility layer"
+maintainer="badbayan <badya65@gmail.com>"
+license="BSD-3-Clause"
+homepage="https://github.com/libsdl-org/sdl12-compat"
+distfiles="${homepage}/archive/release-${version}.tar.gz"
+checksum=029fa24fe9e0d6a15b94f4737a2d3ed3144c5ef920eb82b4c6b30248eb94518b
+provides="SDL-${version}_${revision}"
+replaces="SDL>=0"
+
+post_install() {
+	vlicense LICENSE.txt
+}
+
+sdl12-compat-devel_package() {
+	short_desc+=" - development files"
+	depends="${makedepends} ${sourcepkg}>=${version}_${revision}"
+	pkg_install() {
+		vmove usr/bin
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+		vmove "usr/lib/*.a"
+		vmove "usr/lib/*.so"
+		vmove usr/share
+	}
+}
