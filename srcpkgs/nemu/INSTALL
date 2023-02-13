@@ -1,0 +1,5 @@
+case "${ACTION}" in
+post)
+	setcap CAP_NET_ADMIN+ep usr/bin/nemu
+	;;
+esac

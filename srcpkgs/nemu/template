@@ -1,0 +1,34 @@
+# Template file for 'nemu'
+pkgname=nemu
+version=3.2.0
+revision=1
+build_style=cmake
+configure_args="-DNM_WITH_VNC_CLIENT=ON -DNM_WITH_SPICE=ON -DNM_WITH_UNICODE_GLYPHS=ON
+ -DNM_WITH_DBUS=$(vopt_if dbus ON OFF) -DNM_WITH_OVF_SUPPORT=$(vopt_if ovf ON OFF)
+ -DNM_WITH_REMOTE=$(vopt_if remote ON OFF) -DNM_WITH_NETWORK_MAP=$(vopt_if svg ON OFF)"
+hostmakedepends="pkg-config"
+makedepends="eudev-libudev-devel gettext-devel json-c-devel
+ libusb-devel ncurses-devel sqlite-devel
+ $(vopt_if dbus dbus-devel)
+ $(vopt_if ovf libarchive-devel) $(vopt_if ovf libxml2-devel)
+ $(vopt_if remote openssl-devel)
+ $(vopt_if svg graphviz-devel)"
+depends="qemu"
+short_desc="Ncurses UI for QEMU"
+maintainer="badbayan <badya65@gmail.com>"
+license="BSD-2-Clause"
+homepage="https://github.com/nemuTUI/nemu"
+changelog="https://raw.githubusercontent.com/nemuTUI/nemu/master/CHANGES"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=f35b7e5c534bae294fe6df7685b686682145222a954b6914dfdcc17d386fecba
+
+build_options="ovf dbus remote svg"
+build_options_default="ovf dbus remote svg"
+desc_option_dbus="Build with D-Bus support"
+desc_option_ovf="Build with OVF support"
+desc_option_remote="Build with remote control"
+desc_option_svg="Build with exporting network map to SVG"
+
+post_install() {
+	vlicense LICENSE
+}
